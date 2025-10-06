@@ -25,17 +25,32 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
+      - name: Cache HuggingFace models
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/huggingface
+          key: ${{ runner.os }}-hf-models-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-hf-models-
+
+      - name: Cache FAISS index
+        uses: actions/cache@v3
+        with:
+          path: faiss_index
+          key: ${{ runner.os }}-faiss-${{ hashFiles('data/source_document.pdf') }}
+          restore-keys: |
+            ${{ runner.os }}-faiss-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Check for FAISS index
+      - name: Run document ingestion
         run: |
-          if [ ! -d "faiss_index" ]; then
-            echo "❌ FAISS index not found. Please commit the index or run ingestion."
-            exit 1
-          fi
+          echo "📄 Running document ingestion to create FAISS index..."
+          export PYTHONPATH=$GITHUB_WORKSPACE
+          python scripts/ingest.py
 
       - name: Check for golden dataset
         run: |
