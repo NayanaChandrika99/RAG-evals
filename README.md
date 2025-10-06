@@ -2,6 +2,8 @@
 
 A production MLOps framework for Retrieval-Augmented Generation (RAG) systems with automated quality assurance and observability.
 
+<!-- Testing CI/CD pipeline -->
+
        ## Overview
 
        This framework demonstrates end-to-end AI engineering practices for RAG systems, including:
