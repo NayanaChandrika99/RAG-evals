@@ -1,0 +1,90 @@
+name: PR Quality Check
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check for FAISS index
+        run: |
+          if [ ! -d "faiss_index" ]; then
+            echo "❌ FAISS index not found. Please commit the index or run ingestion."
+            exit 1
+          fi
+
+      - name: Check for golden dataset
+        run: |
+          if [ ! -f "data/golden_dataset.json" ]; then
+            echo "❌ Golden dataset not found at data/golden_dataset.json"
+            exit 1
+          fi
+
+      - name: Run evaluation
+        run: |
+          export PYTHONPATH=$GITHUB_WORKSPACE
+          python scripts/run_evaluation.py --output current_report.json --judge-model gpt-3.5-turbo
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          LANGCHAIN_TRACING_V2: false  # Disable tracing in CI
+
+      - name: Check for regressions
+        run: python scripts/compare_metrics.py baseline_report.json current_report.json
+
+      - name: Upload evaluation report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: evaluation-report
+          path: current_report.json
+
+      - name: Comment on PR
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('current_report.json', 'utf8'));
+
+            const comment = `## 📊 Evaluation Results
+
+            | Metric | Score | Status |
+            |--------|-------|--------|
+            | Faithfulness | ${report.scores.faithfulness.toFixed(3)} | ${report.scores.faithfulness >= 0.80 ? '✅' : '❌'} |
+            | Answer Relevancy | ${report.scores.answer_relevancy.toFixed(3)} | ${report.scores.answer_relevancy >= 0.80 ? '✅' : '❌'} |
+            | Context Recall | ${report.scores.context_recall.toFixed(3)} | ${report.scores.context_recall >= 0.75 ? '✅' : '❌'} |
+            | Context Precision | ${report.scores.context_precision.toFixed(3)} | ${report.scores.context_precision >= 0.70 ? '✅' : '❌'} |
+
+            **Pass Rate**: ${report.pass_rate.toFixed(0)}%
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

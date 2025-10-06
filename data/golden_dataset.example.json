@@ -1,0 +1,12 @@
+[
+  {
+    "question": "What is the main contribution of this document?",
+    "ground_truth_answer": "Replace this with the actual answer based on your source document. Be specific and use only information from the document.",
+    "ground_truth_context": "Replace this with the exact text snippet from the source document that supports the answer. This should be a direct quote."
+  },
+  {
+    "question": "Example question 2",
+    "ground_truth_answer": "Example answer 2",
+    "ground_truth_context": "Example context 2"
+  }
+]

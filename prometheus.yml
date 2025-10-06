@@ -1,0 +1,25 @@
+# Prometheus configuration for RAG Ops Framework
+
+global:
+  scrape_interval: 15s       # How often to scrape targets
+  evaluation_interval: 15s   # How often to evaluate rules
+
+  # Attach these labels to any time series or alerts
+  external_labels:
+    monitor: 'rag-ops-monitor'
+    project: 'rag-framework'
+
+# Scrape configurations
+scrape_configs:
+  # RAG application metrics
+  - job_name: 'rag-app'
+    static_configs:
+      - targets: ['app:8000']
+        labels:
+          service: 'rag-chatbot'
+          environment: 'production'
+
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

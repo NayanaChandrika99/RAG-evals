@@ -1,0 +1,152 @@
+[
+  {
+    "question": "What is the main contribution of this document?",
+    "ground_truth_answer": "It provides the first comprehensive exploration of mechanistic interpretability, synthesizing the research and offering a structured, accessible introduction focused on reverse\u2011engineering the computations of deep neural networks.",
+    "ground_truth_context": "\u201cThis review focuses on mechanistic interpretability, an emerging approach within the broader interpretability landscape that strives to comprehensively specify the computations underlying deep neural networks.\u201d \u2026 \u201cOur review serves as the first comprehensive exploration of mechanistic interpretability research, \u2026 providing a structured, accessible, and comprehensive introduction for AI researchers and practitioners.\u201d"
+  },
+  {
+    "question": "According to the paper, what is a 'feature' (Definition 1)?",
+    "ground_truth_answer": "Features are the fundamental units of neural network representations that cannot be further decomposed into simpler independent factors.",
+    "ground_truth_context": "\u201cFeatures are the fundamental units of neural network representations that cannot be further decom-posed into simpler independent factors.\u201d"
+  },
+  {
+    "question": "What is Hypothesis 1: Superposition?",
+    "ground_truth_answer": "Neural networks represent more features than they have neurons by encoding features in overlapping combinations of neurons.",
+    "ground_truth_context": "\u201cHypothesis 1: Superposition \u2026 Neural networks represent more features than they have neurons by encoding features in overlapping combinations of neurons.\u201d"
+  },
+  {
+    "question": "What is Hypothesis 2: Linear Representation?",
+    "ground_truth_answer": "Features are directions in activation space, i.e., linear combinations of neurons.",
+    "ground_truth_context": "\u201cHypothesis 2: Linear Representation \u2026 Features are directions in activation space, i.e., linear combinations of neurons.\u201d"
+  },
+  {
+    "question": "How does the paper define a 'circuit' (Definition 3)?",
+    "ground_truth_answer": "Circuits are sub-graphs of the network, consisting of features and the weights connecting them.",
+    "ground_truth_context": "\u201cDefinition 3: Circuit \u2026 Circuits are sub-graphs of the network, consisting of features and the weights connecting them.\u201d"
+  },
+  {
+    "question": "How does the paper define a 'motif' (Definition 4)?",
+    "ground_truth_answer": "Motifs are repeated patterns within a network, encompassing either features or circuits that emerge across different models and tasks.",
+    "ground_truth_context": "\u201cDefinition 4: Motif \u2026 Motifs are repeated patterns within a network, encompassing either features or circuits that emerge across different models and tasks.\u201d"
+  },
+  {
+    "question": "What is the weak universality hypothesis (Hypothesis 3)?",
+    "ground_truth_answer": "Models generally converge on analogous solutions governed by common underlying principles, though the specific features and circuits can vary across models.",
+    "ground_truth_context": "\u201cHypothesis 3: Weak Universality \u2026 Models will generally converge on analogous solutions that adhere to the common underlying principles. However, the specific features and circuits that implement these principles can vary across different models \u2026\u201d"
+  },
+  {
+    "question": "What is the strong universality hypothesis (Hypothesis 4)?",
+    "ground_truth_answer": "The same core features and circuits will universally arise across models trained on similar tasks and data using similar techniques.",
+    "ground_truth_context": "\u201cHypothesis 4: Strong Universality \u2026 The same core features and circuits will universally and consistently arise across all neural network models trained on similar tasks and data distributions and using similar techniques \u2026\u201d"
+  },
+  {
+    "question": "What is the simulation hypothesis (Hypothesis 5)?",
+    "ground_truth_answer": "A model optimized for text prediction will simulate the causal processes underlying text creation if optimized sufficiently strongly.",
+    "ground_truth_context": "\u201cHypothesis 5: Simulation \u2026 A model whose objective is text prediction will simulate the causal processes underlying the text creation if optimized sufficiently strongly (janus, 2022).\u201d"
+  },
+  {
+    "question": "What is the prediction orthogonality hypothesis (Hypothesis 6)?",
+    "ground_truth_answer": "A prediction\u2011focused model can simulate agents that optimize toward any objectives with any degree of optimality.",
+    "ground_truth_context": "\u201cHypothesis 6: Prediction Orthogonality \u2026 A model whose objective is prediction can simulate agents who optimize toward any objectives with any degree of optimality (janus, 2022).\u201d"
+  },
+  {
+    "question": "What is activation patching?",
+    "ground_truth_answer": "A family of causal intervention techniques that manipulate neural activations\u2014by replacing specific activations with alternatives\u2014to analyze the role of model components and circuits.",
+    "ground_truth_context": "\u201cActivation patching is a collective term for a set of causal intervention techniques that manipulate neural network activations \u2026 by replacing specific activations with alternative values \u2026\u201d"
+  },
+  {
+    "question": "What is the primary objective of activation patching?",
+    "ground_truth_answer": "To isolate and understand the role of specific components or circuits by observing how changes in activations affect the model\u2019s output.",
+    "ground_truth_context": "\u201cThe primary objective of activation patching is to isolate and understand the role of specific components or circuits within the model by observing how changes in activations affect the model\u2019s output.\u201d"
+  },
+  {
+    "question": "What are the standard four steps in activation patching?",
+    "ground_truth_answer": "i) Run the model with a clean input and cache activations; ii) run with a corrupted input; iii) re\u2011run the corrupted input but substitute selected activations from the clean cache; iv) assess output changes to determine importance.",
+    "ground_truth_context": "\u201cThe standard protocol for activation patching \u2026 involves: step i. Running the model with a clean input and caching the latent activations; step ii. Executing the model with a corrupted input; step iii. Re\u2011running the model with the corrupted input but substituting specific activations with those from the clean cache; and step iv. Determining significance by observing the variations in the model\u2019s output \u2026\u201d"
+  },
+  {
+    "question": "What does the logit lens show?",
+    "ground_truth_answer": "By applying the final classification layer to intermediate residual\u2011stream activations, it reveals how prediction confidence evolves across computational stages.",
+    "ground_truth_context": "\u201cThe logit lens \u2026 provides a window into the model\u2019s predictive process by applying the final classification layer \u2026 to intermediate activations of the residual stream, revealing how prediction confidence evolves across computational stages.\u201d"
+  },
+  {
+    "question": "What do sparse autoencoders (SAEs) aim to recover?",
+    "ground_truth_answer": "They learn a sparse overcomplete basis to disentangle and reconstruct activations, aiming to find the true, disentangled features present in superposition.",
+    "ground_truth_context": "\u201cSAEs aim to find the true, disentangled features in an uncompressed representation by learning a sparse overcomplete basis that describes the activation space of the trained model.\u201d"
+  },
+  {
+    "question": "What alternative definition of a feature does the paper offer under superposition (Definition 2)?",
+    "ground_truth_answer": "Features are the elements a larger, sparser network would assign to individual neurons if capacity were not limiting.",
+    "ground_truth_context": "\u201cDefinition 2: Feature (Alternative) \u2026 Features are elements that a network would ideally assign to individual neurons if neuron count were not a limiting factor \u2026 the disentangled concepts that a larger, sparser network with sufficient capacity would learn to represent with individual neurons.\u201d"
+  },
+  {
+    "question": "What four dimensions does the paper use to categorize mechanistic interpretability methods?",
+    "ground_truth_answer": "Causal nature, learning phase, locality, and comprehensiveness.",
+    "ground_truth_context": "We propose a taxonomy based on four key dimensions: causal nature, learning phase, locality, and comprehensiveness (Table 1)."
+  },
+  {
+    "question": "Which techniques are listed as observational approaches?",
+    "ground_truth_answer": "Structured probes, logit lens variants, and sparse autoencoders (SAEs).",
+    "ground_truth_context": null
+  },
+  {
+    "question": "What interventional techniques does the paper highlight and what do they focus on?",
+    "ground_truth_answer": "They focus on causal understanding and include activation patching variants and causal scrubbing for hypothesis evaluation.",
+    "ground_truth_context": null
+  },
+  {
+    "question": "How does the paper define 'Locality' in its taxonomy?",
+    "ground_truth_answer": "It is the scope of analysis\u2014from individual neurons to entire model architectures.",
+    "ground_truth_context": "Locality refers to the scope of analysis, spanning from individual neurons ( e."
+  },
+  {
+    "question": "What does 'Comprehensiveness' mean in this taxonomy?",
+    "ground_truth_answer": "It ranges from partial insights about specific components to holistic explanations of model behavior.",
+    "ground_truth_context": "Comprehensiveness varies from partial insights into specific components to holistic explanations of model behavior."
+  },
+  {
+    "question": "Mechanically, how does the logit lens work?",
+    "ground_truth_answer": "It applies the final classification layer to intermediate residual-stream activations to obtain logits over the vocabulary.",
+    "ground_truth_context": null
+  },
+  {
+    "question": "Why does the logit lens meaningfully reflect intermediate predictions?",
+    "ground_truth_answer": "Because transformers tend to build their predictions across layers iteratively.",
+    "ground_truth_context": null
+  },
+  {
+    "question": "How does path patching extend activation patching?",
+    "ground_truth_answer": "It patches along multiple edges in the computation graph to estimate direct and indirect effects (e.g., of attention heads on output logits).",
+    "ground_truth_context": "Path patching extends the activation patching approach to multiple edges in the computational graph (Wang et al., 2023; Goldowsky-Dill et al., 2023), allowing for a more fine-grained analysis of component interactions. For example, path patching can be used to estimate the direct and indirect effects of attention heads on the output logits."
+  },
+  {
+    "question": "What is subspace activation patching (distributed interchange interventions) intended to do?",
+    "ground_truth_answer": "Intervene on linear subspaces where features are hypothesized to be encoded, enabling more targeted interventions.",
+    "ground_truth_context": "Subspace Activation Patching. Path patching extends the activation patching approach to multiple edges in the computational graph (Wang et al., 2023; Goldowsky-Dill et al., 2023), allowing for a more fine-grained analysis of component interactions. For example, path patching can be used to estimate the direct and indirect effects of attention heads on the output logits. Subspace activation patching, also known as distributed interchange interventions (Geiger et al., 2023b), aims to intervene only on linear subspaces of the representation space where featuresare hypothesized to be encoded, providing a tool for more targeted interventions."
+  },
+  {
+    "question": "What is the aim of concept-based interpretability?",
+    "ground_truth_answer": "To probe learned representations for high-level concepts and patterns that govern the model\u2019s behavior.",
+    "ground_truth_context": "Concept-based interpretability adopts a top-down approach to unraveling a model\u2019s decision-making processes by probing its learned representations for high-level concepts and patterns governing behavior."
+  },
+  {
+    "question": "List techniques mentioned under concept-based interpretability.",
+    "ground_truth_answer": "Supervised auxiliary classifiers, unsupervised contrastive and structured probes, and neural representation analysis.",
+    "ground_truth_context": "Techniques include training supervised auxiliary classifiers (Belinkov, 2021), employing unsupervised contrastive and structured probes (see Section 4.2) to explore latent knowledge (Burns et al., 2023), and using neural representation analysis to quantify the representational similarities between the internal representations learned by different neural networks (Kornblith et al."
+  },
+  {
+    "question": "Why might polysemanticity be desirable from a capabilities standpoint?",
+    "ground_truth_answer": "It lets models represent more concepts with limited compute, making training cheaper.",
+    "ground_truth_context": "polysemanticity may be desirable as it allows models to represent more concepts with limited compute, making training cheaper."
+  },
+  {
+    "question": "What challenge does the paper note about engineering monosemanticity?",
+    "ground_truth_answer": "Engineering monosemanticity is difficult and may be impractical without orders of magnitude more compute.",
+    "ground_truth_context": "Overall, engineering monosemanticity has proven challenging (Bricken et al."
+  },
+  {
+    "question": "How does causal abstraction validate explanations?",
+    "ground_truth_answer": "By using interchange interventions on activations to test causal hypotheses, unifying diverse interpretability methods.",
+    "ground_truth_context": "This approach validates 18 Published in Transactions on Machine Learning Research (08/2024) explanations through interchange interventions on network activations (Jenner et al., 2023), unifying various interpretability methods such as LIME (Ribeiro et al."
+  }
+]

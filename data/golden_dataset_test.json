@@ -1,0 +1,27 @@
+[
+  {
+    "question": "What is the main contribution of this document?",
+    "ground_truth_answer": "It provides the first comprehensive exploration of mechanistic interpretability, synthesizing the research and offering a structured, accessible introduction focused on reverse\u2011engineering the computations of deep neural networks.",
+    "ground_truth_context": "\u201cThis review focuses on mechanistic interpretability, an emerging approach within the broader interpretability landscape that strives to comprehensively specify the computations underlying deep neural networks.\u201d \u2026 \u201cOur review serves as the first comprehensive exploration of mechanistic interpretability research, \u2026 providing a structured, accessible, and comprehensive introduction for AI researchers and practitioners.\u201d"
+  },
+  {
+    "question": "According to the paper, what is a 'feature' (Definition 1)?",
+    "ground_truth_answer": "Features are the fundamental units of neural network representations that cannot be further decomposed into simpler independent factors.",
+    "ground_truth_context": "\u201cFeatures are the fundamental units of neural network representations that cannot be further decom-posed into simpler independent factors.\u201d"
+  },
+  {
+    "question": "What is Hypothesis 1: Superposition?",
+    "ground_truth_answer": "Neural networks represent more features than they have neurons by encoding features in overlapping combinations of neurons.",
+    "ground_truth_context": "\u201cHypothesis 1: Superposition \u2026 Neural networks represent more features than they have neurons by encoding features in overlapping combinations of neurons.\u201d"
+  },
+  {
+    "question": "What is Hypothesis 2: Linear Representation?",
+    "ground_truth_answer": "Features are directions in activation space, i.e., linear combinations of neurons.",
+    "ground_truth_context": "\u201cHypothesis 2: Linear Representation \u2026 Features are directions in activation space, i.e., linear combinations of neurons.\u201d"
+  },
+  {
+    "question": "How does the paper define a 'circuit' (Definition 3)?",
+    "ground_truth_answer": "Circuits are sub-graphs of the network, consisting of features and the weights connecting them.",
+    "ground_truth_context": "\u201cDefinition 3: Circuit \u2026 Circuits are sub-graphs of the network, consisting of features and the weights connecting them.\u201d"
+  }
+]
