@@ -83,18 +83,51 @@ jobs:
         with:
           script: |
             const fs = require('fs');
+
+            if (!fs.existsSync('current_report.json')) {
+              const comment = `## ❌ Evaluation Failed
+
+              The evaluation report was not generated. Check the workflow logs for details.
+
+              Common issues:
+              - Missing or invalid OPENAI_API_KEY secret
+              - Network connectivity issues
+              - Evaluation script errors
+              `;
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+              return;
+            }
+
             const report = JSON.parse(fs.readFileSync('current_report.json', 'utf8'));
+
+            // Handle NaN values gracefully
+            const formatScore = (score) => {
+              if (score === null || isNaN(score)) return 'N/A';
+              return score.toFixed(3);
+            };
+
+            const checkStatus = (score, threshold) => {
+              if (score === null || isNaN(score)) return '⚠️';
+              return score >= threshold ? '✅' : '❌';
+            };
 
             const comment = `## 📊 Evaluation Results
 
             | Metric | Score | Status |
             |--------|-------|--------|
-            | Faithfulness | ${report.scores.faithfulness.toFixed(3)} | ${report.scores.faithfulness >= 0.80 ? '✅' : '❌'} |
-            | Answer Relevancy | ${report.scores.answer_relevancy.toFixed(3)} | ${report.scores.answer_relevancy >= 0.80 ? '✅' : '❌'} |
-            | Context Recall | ${report.scores.context_recall.toFixed(3)} | ${report.scores.context_recall >= 0.75 ? '✅' : '❌'} |
-            | Context Precision | ${report.scores.context_precision.toFixed(3)} | ${report.scores.context_precision >= 0.70 ? '✅' : '❌'} |
+            | Faithfulness | ${formatScore(report.scores.faithfulness)} | ${checkStatus(report.scores.faithfulness, 0.80)} |
+            | Answer Relevancy | ${formatScore(report.scores.answer_relevancy)} | ${checkStatus(report.scores.answer_relevancy, 0.80)} |
+            | Context Recall | ${formatScore(report.scores.context_recall)} | ${checkStatus(report.scores.context_recall, 0.75)} |
+            | Context Precision | ${formatScore(report.scores.context_precision)} | ${checkStatus(report.scores.context_precision, 0.70)} |
 
-            **Pass Rate**: ${report.pass_rate.toFixed(0)}%
+            **Pass Rate**: ${isNaN(report.pass_rate) ? 'N/A' : report.pass_rate.toFixed(0) + '%'}
+            ${isNaN(report.pass_rate) ? '\n⚠️ **Warning**: Evaluation failed due to API connectivity issues. Please check OPENAI_API_KEY secret and try again.' : ''}
             `;
 
             github.rest.issues.createComment({
