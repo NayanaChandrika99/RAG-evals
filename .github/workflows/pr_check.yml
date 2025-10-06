@@ -56,7 +56,7 @@ jobs:
         run: python scripts/compare_metrics.py baseline_report.json current_report.json
 
       - name: Upload evaluation report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: evaluation-report
