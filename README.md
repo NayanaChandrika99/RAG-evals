@@ -1,6 +1,6 @@
 # RAG Ops Framework
 
-A production MLOps framework for Retrieval-Augmented Generation (RAG) systems with automated quality assurance and observability.
+A MLOps framework for Retrieval-Augmented Generation (RAG) systems with automated quality assurance and observability.
 
 ## Overview
 
@@ -146,11 +146,6 @@ docker-compose up -d
 **Observability**: LangSmith, Prometheus, Grafana
 **Infrastructure**: Docker, GitHub Actions, Streamlit
 
-## Documentation
-
-- [MIGRATION_SUMMARY.md](./MIGRATION_SUMMARY.md) - Migration to modern stack
-- [NEXT_STEPS.md](./NEXT_STEPS.md) - Development roadmap
-- [CLAUDE.md](./CLAUDE.md) - Detailed implementation guide
 
 ## License
 
