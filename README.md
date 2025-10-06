@@ -1,152 +1,152 @@
-# RAG Ops Framework
+       # RAG Ops Framework
 
-A MLOps framework for Retrieval-Augmented Generation (RAG) systems with automated quality assurance and observability.
+A production MLOps framework for Retrieval-Augmented Generation (RAG) systems with automated quality assurance and observability.
 
-## Overview
+       ## Overview
 
-This framework demonstrates end-to-end AI engineering practices for RAG systems, including:
-- Automated evaluation with RAGAS metrics
-- CI/CD quality gates to prevent regressions
-- Full observability stack with LangSmith, Prometheus, and Grafana
-- Containerized deployment with Docker
+       This framework demonstrates end-to-end AI engineering practices for RAG systems, including:
+       - Automated evaluation with RAGAS metrics
+       - CI/CD quality gates to prevent regressions
+       - Full observability stack with LangSmith, Prometheus, and Grafana
+       - Containerized deployment with Docker
 
-## Architecture
+       ## Architecture
 
-**Hybrid Approach:**
-- **Embeddings**: Local `all-mpnet-base-v2` model (sentence-transformers)
-- **Vector Store**: FAISS for similarity search
-- **Generation**: OpenAI GPT-3.5-turbo
-- **Evaluation**: RAGAS framework with GPT-3.5-turbo as judge
+       **Hybrid Approach:**
+       - **Embeddings**: Local `all-mpnet-base-v2` model (sentence-transformers)
+       - **Vector Store**: FAISS for similarity search
+       - **Generation**: OpenAI GPT-3.5-turbo
+       - **Evaluation**: RAGAS framework with GPT-3.5-turbo as judge
 
-```
-┌─────────────┐      ┌──────────────┐      ┌─────────────┐
-│   User      │─────>│  Streamlit   │─────>│ RAG Chain   │
-│  Question   │<─────│     UI       │<─────│  (LCEL)     │
-└─────────────┘      └──────────────┘      └─────────────┘
-                            │                       │
-                            │                       ├─> Local Embeddings
-                            │                       ├─> FAISS Retrieval
-                            │                       └─> GPT-3.5 Generation
-                            │
-                     ┌──────▼───────┐
-                     │ Observability │
-                     ├──────────────┤
-                     │ • LangSmith   │
-                     │ • Prometheus  │
-                     │ • Grafana     │
-                     └───────────────┘
-```
+       ```
+       ┌─────────────┐      ┌──────────────┐      ┌─────────────┐
+       │   User      │─────>│  Streamlit   │─────>│ RAG Chain   │
+       │  Question   │<─────│     UI       │<─────│  (LCEL)     │
+       └─────────────┘      └──────────────┘      └─────────────┘
+                                   │                       │
+                                   │                       ├─> Local Embeddings
+                                   │                       ├─> FAISS Retrieval
+                                   │                       └─> GPT-3.5 Generation
+                                   │
+                            ┌──────▼───────┐
+                            │ Observability │
+                            ├──────────────┤
+                            │ • LangSmith   │
+                            │ • Prometheus  │
+                            │ • Grafana     │
+                            └───────────────┘
+       ```
 
-## Quick Start
+       ## Quick Start
 
-```bash
-# Install dependencies
-pip install -r requirements.txt
+       ```bash
+       # Install dependencies
+       pip install -r requirements.txt
 
-# Configure API keys in .env
-OPENAI_API_KEY=sk-...
-LANGSMITH_API_KEY=lsv2_pt_...
+       # Configure API keys in .env
+       OPENAI_API_KEY=sk-...
+       LANGSMITH_API_KEY=lsv2_pt_...
 
-# Ingest documents
-python scripts/ingest.py
+       # Ingest documents
+       python scripts/ingest.py
 
-# Run application
-streamlit run app.py
+       # Run application
+       streamlit run app.py
 
-# Run evaluation
-python scripts/run_evaluation.py
-```
+       # Run evaluation
+       python scripts/run_evaluation.py
+       ```
 
-## Evaluation Metrics
+       ## Evaluation Metrics
 
-The system tracks four key RAGAS metrics:
+       The system tracks four key RAGAS metrics:
 
-| Metric | Target | Description |
-|--------|--------|-------------|
-| Faithfulness | ≥0.80 | Answer grounded in retrieved context |
-| Answer Relevancy | ≥0.80 | Answer addresses the question |
-| Context Recall | ≥0.75 | All necessary information retrieved |
-| Context Precision | ≥0.70 | Relevant contexts ranked highly |
+       | Metric | Target | Description |
+       |--------|--------|-------------|
+       | Faithfulness | ≥0.80 | Answer grounded in retrieved context |
+       | Answer Relevancy | ≥0.80 | Answer addresses the question |
+       | Context Recall | ≥0.75 | All necessary information retrieved |
+       | Context Precision | ≥0.70 | Relevant contexts ranked highly |
 
-**Current Baseline**: 75% pass rate (3/4 metrics above threshold)
+       **Current Baseline**: 75% pass rate (3/4 metrics above threshold)
 
-## CI/CD Quality Gates
+       ## CI/CD Quality Gates
 
-Automated workflows ensure quality:
+       Automated workflows ensure quality:
 
-**PR Check** (`.github/workflows/pr_check.yml`):
-- Runs evaluation on golden dataset
-- Compares metrics to baseline
-- Blocks merge if metrics degrade >5%
+       **PR Check** (`.github/workflows/pr_check.yml`):
+       - Runs evaluation on golden dataset
+       - Compares metrics to baseline
+       - Blocks merge if metrics degrade >5%
 
-**Baseline Update** (`.github/workflows/update_baseline.yml`):
-- Updates baseline on main branch merges
-- Maintains quality standards over time
+       **Baseline Update** (`.github/workflows/update_baseline.yml`):
+       - Updates baseline on main branch merges
+       - Maintains quality standards over time
 
-### GitHub Setup
+       ### GitHub Setup
 
-Add repository secret:
-```
-OPENAI_API_KEY=sk-...
-```
+       Add repository secret:
+       ```
+       OPENAI_API_KEY=sk-...
+       ```
 
-## Observability
+       ## Observability
 
-### LangSmith Tracing
+       ### LangSmith Tracing
 
-View detailed traces at https://smith.langchain.com
-- Complete RAG chain execution
-- Individual component timings
-- Input/output logging
+       View detailed traces at https://smith.langchain.com
+       - Complete RAG chain execution
+       - Individual component timings
+       - Input/output logging
 
-### Prometheus Metrics
+       ### Prometheus Metrics
 
-Available at `/metrics`:
-- `rag_questions_total`: Total questions asked
-- `rag_response_seconds`: Response time distribution
-- `rag_errors_total`: Error count
+       Available at `/metrics`:
+       - `rag_questions_total`: Total questions asked
+       - `rag_response_seconds`: Response time distribution
+       - `rag_errors_total`: Error count
 
-### Grafana Dashboards
+       ### Grafana Dashboards
 
-Access at http://localhost:3000 (via Docker Compose)
+       Access at http://localhost:3000 (via Docker Compose)
 
-## Docker Deployment
+       ## Docker Deployment
 
-```bash
-# Start full stack
-docker-compose up -d
+       ```bash
+       # Start full stack
+       docker-compose up -d
 
-# Services:
-# - Streamlit: http://localhost:8501
-# - Prometheus: http://localhost:9090
-# - Grafana: http://localhost:3000
-```
+       # Services:
+       # - Streamlit: http://localhost:8501
+       # - Prometheus: http://localhost:9090
+       # - Grafana: http://localhost:3000
+       ```
 
-## Project Structure
+       ## Project Structure
 
-```
-/rag-ops-framework
-├── .github/workflows/      # CI/CD pipelines
-├── data/                   # Documents & test datasets
-├── scripts/
-│   ├── ingest.py          # Document ingestion
-│   ├── run_evaluation.py  # RAGAS evaluation
-│   └── compare_metrics.py # Baseline comparison
-├── src/
-│   └── rag_chain.py       # Core RAG logic (LCEL)
-├── app.py                 # Streamlit UI
-├── baseline_report.json   # Quality baseline
-└── requirements.txt       # Dependencies
-```
+       ```
+       /rag-ops-framework
+       ├── .github/workflows/      # CI/CD pipelines
+       ├── data/                   # Documents & test datasets
+       ├── scripts/
+       │   ├── ingest.py          # Document ingestion
+       │   ├── run_evaluation.py  # RAGAS evaluation
+       │   └── compare_metrics.py # Baseline comparison
+       ├── src/
+       │   └── rag_chain.py       # Core RAG logic (LCEL)
+       ├── app.py                 # Streamlit UI
+       ├── baseline_report.json   # Quality baseline
+       └── requirements.txt       # Dependencies
+       ```
 
-## Tech Stack
+       ## Tech Stack
 
-**Core**: Python 3.12, LangChain, OpenAI, sentence-transformers, FAISS
-**Evaluation**: RAGAS
-**Observability**: LangSmith, Prometheus, Grafana
-**Infrastructure**: Docker, GitHub Actions, Streamlit
+       **Core**: Python 3.12, LangChain, OpenAI, sentence-transformers, FAISS
+       **Evaluation**: RAGAS
+       **Observability**: LangSmith, Prometheus, Grafana
+       **Infrastructure**: Docker, GitHub Actions, Streamlit
 
 
-## License
+       ## License
 
-MIT
+       MIT
